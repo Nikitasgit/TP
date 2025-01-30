@@ -1,0 +1,7 @@
+.movies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 40px 10px;
+}/*# sourceMappingURL=MoviesList.css.map */

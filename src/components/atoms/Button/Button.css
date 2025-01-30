@@ -1,0 +1,15 @@
+.my-button {
+  padding: 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  min-width: 100px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+  border: none;
+}
+.my-button:hover {
+  color: darkgray;
+}/*# sourceMappingURL=Button.css.map */
