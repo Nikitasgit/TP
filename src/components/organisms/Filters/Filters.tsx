@@ -53,7 +53,9 @@ const Filters: React.FC<IFiltersProps> = ({
     _: React.MouseEvent<HTMLElement>,
     newLanguage: TLanguage
   ) => {
-    changeLanguage(newLanguage);
+    if (newLanguage !== null) {
+      changeLanguage(newLanguage);
+    }
   };
 
   useEffect(() => {
