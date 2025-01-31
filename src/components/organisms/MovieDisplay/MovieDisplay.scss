@@ -1,11 +1,13 @@
-.movie-page {
+.movie-display {
   display: flex;
   height: calc(100vh - 80px);
   padding: 20px 80px;
   gap: 20px;
   color: white;
   align-items: center;
-
+  img {
+    width: 400px;
+  }
   justify-content: center;
   h2 {
     font-size: 2rem;
@@ -21,7 +23,7 @@
     img {
       height: 30px;
       width: 30px;
-      object-fit: cover;
+      object-fit: contain;
     }
     a {
       font-size: 1.4rem;

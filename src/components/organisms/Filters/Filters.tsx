@@ -1,34 +1,38 @@
-import TextField from "@atoms/TextField/TextField";
-import { useMovies, useSearchMovie } from "@hooks/queries";
-import { ChangeEvent, useEffect, useState } from "react";
-import { IFiltersProps } from "./Filters.props";
-import CustomSelect from "@molecules/CustomSelect/CustomSelect";
-import "./Filters.scss";
+import { TLanguage } from "@/types/filtersType";
 import Button from "@atoms/Button/Button";
+import TextField from "@atoms/TextField/TextField";
+import { filterOptions, languages } from "@constants/filters";
+import { useMovies, useSearchMovie } from "@hooks/queries";
+import CustomSelect from "@molecules/CustomSelect/CustomSelect";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useFilters } from "store/useFilters";
+import { IFiltersProps } from "./Filters.props";
+import "./Filters.scss";
 
 const Filters: React.FC<IFiltersProps> = ({
   setFilteredMovies,
   setIsLoading,
 }) => {
   const [page, setPage] = useState(1);
+  const {
+    search,
+    changeSearch,
+    category,
+    changeCategory,
+    language,
+    changeLanguage,
+  } = useFilters();
 
-  const filterOptions = [
-    { value: "popular", display: "Populaires" },
-    { value: "top_rated", display: "Mieux Notés" },
-    { value: "upcoming", display: "À venir" },
-  ];
-
-  const [search, setSearch] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState(filterOptions[0].value);
-
-  const { data: moviesResult, isLoading: isMoviesLoading } = useMovies({
-    result: selectedFilter,
+  const { data: moviesByCat, isLoading: isMoviesLoading } = useMovies({
+    language,
+    result: category,
     page,
   });
-
   const { data: movies, isLoading: isSearchLoading } = useSearchMovie({
     query: search,
     page,
+    language,
   });
   useEffect(() => {
     if (isMoviesLoading || isSearchLoading) {
@@ -38,24 +42,32 @@ const Filters: React.FC<IFiltersProps> = ({
   }, [isSearchLoading, isMoviesLoading, setIsLoading]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    changeSearch(e.target.value);
     setPage(1);
   };
 
   const handleNextPage = () => setPage((prevPage) => prevPage + 1);
   const handlePrevPage = () => setPage((prevPage) => Math.max(prevPage - 1, 1));
 
+  const handleLanguageChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newLanguage: TLanguage
+  ) => {
+    changeLanguage(newLanguage);
+  };
+
   useEffect(() => {
     if (search) {
       setFilteredMovies(movies || []);
     } else {
-      setFilteredMovies(moviesResult?.results || []);
+      setFilteredMovies(moviesByCat?.results || []);
     }
-  }, [search, movies, moviesResult, setFilteredMovies]);
+  }, [search, movies, moviesByCat, setFilteredMovies]);
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearch("");
-    setSelectedFilter(e.target.value);
+    changeSearch("");
+    const newCategory = e.target.value as "popular" | "top_rated" | "up_coming";
+    changeCategory(newCategory);
     setPage(1);
   };
 
@@ -75,6 +87,19 @@ const Filters: React.FC<IFiltersProps> = ({
           onChange={handleOptionChange}
         />
       </div>
+      <ToggleButtonGroup
+        color="primary"
+        value={language}
+        exclusive
+        disabled={isMoviesLoading || isSearchLoading}
+        onChange={handleLanguageChange}
+      >
+        {languages.map((lg) => (
+          <ToggleButton key={lg.value} value={lg.value}>
+            {lg.display}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
       <div className="filters_buttons">
         <Button
           label="Page précédente"

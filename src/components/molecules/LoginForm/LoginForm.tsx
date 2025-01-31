@@ -20,6 +20,7 @@ const LoginForm = () => {
     const currentUser = users?.find((user) => user.email === email);
     if (currentUser) {
       login(currentUser);
+      localStorage.setItem("user", JSON.stringify(currentUser));
       setIsError(false);
       navigate("/");
     } else {

@@ -1,43 +1,49 @@
+import { TLanguage } from "@/types/filtersType";
 import axios from "axios";
-const MOVIES_API_URL = "https://api.themoviedb.org/3/";
+const url = "https://api.themoviedb.org/3/";
 const token = import.meta.env.VITE_API_TOKEN_MOVIES;
 
 export const getMovieData = async ({
   result,
   page,
+  language,
 }: {
   result: string;
   page: number;
+  language: TLanguage;
 }) => {
   try {
-    const response = await axios.get(
-      `${MOVIES_API_URL}movie/${result}?&page=${page}`,
-      {
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          language: "fr-FR",
-          include_adult: false,
-        },
-      }
-    );
+    const response = await axios.get(`${url}movie/${result}?&page=${page}`, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        language,
+        include_adult: false,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 };
 
-export const getMovieById = async (id: number) => {
+export const getMovieById = async ({
+  id,
+  language,
+}: {
+  id: number;
+  language: TLanguage;
+}) => {
   try {
-    const response = await axios.get(`${MOVIES_API_URL}movie/${id}`, {
+    const response = await axios.get(`${url}movie/${id}`, {
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
       params: {
-        language: "fr-FR",
+        language,
         include_adult: false,
       },
     });
@@ -51,19 +57,21 @@ export const getMovieById = async (id: number) => {
 export const searchMovies = async ({
   query,
   page,
+  language,
 }: {
   query: string;
   page: number;
+  language: TLanguage;
 }) => {
   try {
-    const response = await axios.get(`${MOVIES_API_URL}search/movie`, {
+    const response = await axios.get(`${url}search/movie`, {
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
       params: {
         query: query,
-        language: "fr-FR",
+        language,
         include_adult: false,
         page: page,
       },

@@ -6,6 +6,7 @@ import { useAuth } from "store/useAuth";
 import Modal from "@molecules/Modal/Modal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const MoviesList: React.FC<IMovieListProps> = ({ movies }) => {
   const { user } = useAuth();
   const [modal, setModal] = useState(false);

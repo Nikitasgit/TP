@@ -2,7 +2,7 @@ import Nav from "@organisms/Nav/Nav";
 import FavouriteMovies from "@pages/FavouriteMovies";
 import Home from "@pages/Home";
 import Login from "@pages/Login";
-import Movie from "@pages/MoviePage/Movie";
+import Movie from "@pages/Movie";
 import NotFound from "@pages/NotFound";
 import UserSettings from "@pages/UserSettings";
 import { Route, Routes } from "react-router-dom";

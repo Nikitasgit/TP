@@ -21,12 +21,16 @@ export const addUser = async (newUser: IUser) => {
   }
 };
 
-export const modifyUser = async (user: IUser) => {
+export const modifyUser = async (user: IUser): Promise<IUser> => {
   try {
-    const response = await axios.put(`${USERS_API_URL}/${user.id}`, user);
+    const response = await axios.put<IUser>(
+      `${USERS_API_URL}/${user.id}`,
+      user
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating user:", error);
+    throw new Error("Failed to update user");
   }
 };
 

@@ -29,7 +29,9 @@
       "@templates/*": ["components/templates/*"],
       "@pages/*": ["components/pages/*"],
       "@api/*": ["api/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@/types/*": ["types/*"],
+      "@constants/*": ["constants/*"]
     }
   },
   "include": ["src"]
