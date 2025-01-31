@@ -50,7 +50,7 @@ const Filters: React.FC<IFiltersProps> = ({
   const handlePrevPage = () => setPage((prevPage) => Math.max(prevPage - 1, 1));
 
   const handleLanguageChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _: React.MouseEvent<HTMLElement>,
     newLanguage: TLanguage
   ) => {
     changeLanguage(newLanguage);
